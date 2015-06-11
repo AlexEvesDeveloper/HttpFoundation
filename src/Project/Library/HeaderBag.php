@@ -32,7 +32,15 @@ class HeaderBag
 	public function get($key, $default = null, $first = true)
 	{
 		$key = strtr(strtolower($key), '_', '-');
+	
+		if (!array_key_exists($key, $this->headers)) {
+			return $first ? $default : array($default);
+		}
 
-		return count($this->headers[$key]) ? $this->headers[$key][0] : $default;
+		if ($first) {
+			return count($this->headers[$key]) ? $this->headers[$key][0] : $default;
+		}
+
+		return $this->headers[$key];
 	}
 }
